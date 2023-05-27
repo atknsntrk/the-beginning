@@ -1,35 +1,40 @@
 from selenium import webdriver
 from mdutils import Html
 from mdutils.mdutils import MdUtils
-
+import sys
+import os
 from selenium.webdriver.common.by import By
 
 class Main:
 
-    url = "https://lightnovelpub.fan/novel/the-beginning-after-the-end-548/chapter-401-30041322"
+    url = sys.argv[1] if len(sys.argv) >= 2 else  "https://lightnovelpub.fan/novel/the-beginning-after-the-end-548/chapter-401-30041322"
 
-
-
+    print(url)
+    
     url_split = url.split("/")[5].split('-')
     chapter_name = url_split[0].capitalize() + " " +url_split[1]
-    file_name = chapter_name + ".txt"
 
+    folder_name = 'chapters/'
+
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
+    
+    file_name = folder_name + chapter_name
+
+    os.path.abspath(folder_name)
     #my_pub = pypub.Epub(chapter_name);
     op = webdriver.ChromeOptions()
     op.add_argument('headless')
-    driver = webdriver.Chrome("C:\\Users\\ataka\\Documents\\fun\\the-beginning\\chromedriver_win32\\chromedriver.exe", options=op)
+    driver = webdriver.Chrome(options=op)
 
     driver.get(url)
 
     chapter = driver.find_element(By.ID, "chapter-container")
     parts = chapter.text.splitlines()
     chapter_title = parts[0]
+    parts.pop()
 
-    print(type(parts[0]))
-
-    mdFile = MdUtils(file_name=chapter_title, title=chapter_title)
-
-    mdFile.new_header(level=1, title=chapter_title)
+    mdFile = MdUtils(file_name=file_name)
 
     for part in parts:
         mdFile.new_paragraph(part) 
