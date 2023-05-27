@@ -30,15 +30,14 @@ class Main:
 
     chapter_list = driver.find_element(By.CLASS_NAME, "chapter-list ")
     chapters = chapter_list.find_elements(By.TAG_NAME, "a") 
-    links = [a.get_attribute('href') for a in chapters ] 
-    for current_link in links:
-        
-        driver.get(current_link)
+    for link in chapters:
+        driver.get(link.get_attribute('href'))
         chapter = driver.find_element(By.ID, "chapter-container") 
         parts = chapter.text.splitlines()
-        link_split = current_link.split("/")[5].split('-')
+        print(type(link.get_attribute('href')))
+        link_split = link.get_attribute('href').text.split("/")[5].split('-')
 
-        chapter_name = link_split[0].capitalize() + " " +link_split[1]
+        chapter_name = url_split[0].capitalize() + " " +url_split[1]
         file_name = folder_name + chapter_name
 
         mdFile = MdUtils(file_name=file_name)
