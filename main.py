@@ -10,7 +10,8 @@ class Main:
 
     url = sys.argv[1] if len(sys.argv) >= 2 else "https://lightnovelpub.fan/novel/the-beginning-after-the-end-web-novel-25052147/chapters?page=5"
 
-    folder_name = 'chapters'
+
+    folder_name = os.getcwd()+'/chapters'
 
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
@@ -19,8 +20,7 @@ class Main:
     my_pub = pypub.Epub("TBATE");
     op = webdriver.ChromeOptions()
     op.add_argument('headless')
-    print(os.path.exists("chromedriver_mac64/chromedriver"))
-    driver = webdriver.Chrome("chromedriver_mac64/chromedriver",options=op)
+    driver = webdriver.Chrome(options=op)
 
     driver.get(url)
 
@@ -48,9 +48,9 @@ class Main:
         for part in parts:
             mdFile.new_paragraph(part)'''
         
-        a = '/n'.join(parts)
+        a = '\n'.join(parts)
         ch = pypub.Chapter(a, file_name)
         my_pub.add_chapter(ch)
         #mdFile.create_md_file()
-        my_pub.create_epub("/Users/goldroger/Fuuun/tools/the-beginning/")
+        my_pub.create_epub(os.getcwd())
     driver.quit()

@@ -1,4 +1,5 @@
 /chapters/
 /.obsidian/
 *.zip
-chromedriver*
+/chromedriver*/
+*.epub
