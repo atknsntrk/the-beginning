@@ -1,2 +1,4 @@
 /chapters/
 /.obsidian/
+*.zip
+chromedriver*
